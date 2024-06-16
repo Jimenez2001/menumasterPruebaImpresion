@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Producto {
+  id Int @id @default(autoincrement())
+  nombre String
+  precio Float
+  //descripcion String
+  imagen String//Si no quisiera campos obligatorios agrego solo ?
+  categoria Categoria @relation(fields: [categoriaId], references: [id])
+  categoriaId Int
+  detallesProducto DetallesProductos[]
+}
+
+model Categoria {
+  id Int @id @default(autoincrement())
+  nombre String
+  icono String
+  productos Producto[]
+}
+
+model Orden {
+  id Int @id @default(autoincrement())
+  nombre String
+  descripcion String
+  fecha String
+  total Float
+  pedido Json
+  estado Boolean @default(false)//Para que cada orden que se cree esté en false
+  mesa Mesas @relation(fields: [mesa_id], references: [id])
+  mesa_id Int
+  usuario Usuarios @relation(fields: [usuario_id], references: [id])
+  usuario_id Int
+}
+
+//Tabla de las ventas
+model Ventas {
+  id Int @id @default(autoincrement())
+  fecha DateTime
+  total Float
+  descripcion Json
+  mesa String
+  usuario Usuarios @relation(fields: [usuario_id], references: [id])
+  usuario_id Int
+  mesas Mesas @relation(fields: [mesa_id], references: [id])
+  mesa_id Int
+}
+ 
+
+
+// Usuarios
+model Usuarios {
+  id Int @id @default(autoincrement())
+  username String
+  email String
+  password String
+  rol Roles @relation(fields: [rol_id], references: [id])
+  rol_id Int
+  ordenes Orden[]
+  ventas Ventas[]
+}
+
+
+// Detalles Productos
+model DetallesProductos {
+  id Int @id @default(autoincrement())
+  producto Producto @relation(fields: [producto_id], references: [id])
+  producto_id Int
+  descripcion String
+  precio Float?
+}
+
+// Roles
+model Roles {
+  id Int @id @default(autoincrement())
+  rol String
+  usuarios Usuarios[]
+}
+
+model Mesas {
+  id Int @id @default(autoincrement())
+  nombre String
+  categoria String?
+  estado Boolean @default(false)
+  ordenes Orden[]
+  ventas Ventas[]
+  
+  }
+
