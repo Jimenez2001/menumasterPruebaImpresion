@@ -29,7 +29,7 @@ export default async function imprimir({ orden }) {
         doc.pipe(writeStream);
 
         // Establecer el tamaño de fuente deseado
-        doc.fontSize(10); 
+        doc.fontSize(11); 
 
         // Agregar el título centrado y en negrita
         doc.font("Helvetica-Bold");
@@ -44,7 +44,7 @@ export default async function imprimir({ orden }) {
         doc.moveDown();
 
 
-        doc.text("____________________________________________", {
+        doc.text("_______________________________________", {
           align: "left",
         });
 
@@ -59,12 +59,12 @@ export default async function imprimir({ orden }) {
         pedidos.forEach((item) => {
           doc.text(`${item.cantidad} x`, 10, doc.y, { continued: true });
           doc.font("Helvetica-Bold");
-          doc.text(`${item.nombre}`, 100, doc.y);
+          doc.text(`${item.nombre}`, 30, doc.y);
           doc.font("Helvetica");
           if (item.detalle && item.detalle.length > 0) {
             item.detalle.forEach((detalle) => {
-              doc.text(`${detalle.label}`, {
-                indent: 20,
+              doc.text(`-${detalle.label}`, {
+                indent: 40,
                 align: "left",
               });
             });
@@ -72,7 +72,7 @@ export default async function imprimir({ orden }) {
           doc.moveDown();
         });
 
-        doc.text("____________________________________________", {
+        doc.text("_______________________________________", {
           align: "left",
         });
 
@@ -110,7 +110,7 @@ export default async function imprimir({ orden }) {
     if (otrosPedidos.length > 0) {
       const pdfPath1 = path.join(process.cwd(), "temp1.pdf");
       await crearPDF(pdfPath1, otrosPedidos, "Parrillada Don Milo - Cocina");
-      await imprimirPDF(pdfPath1, "SEWOO SLK-TS100"); 
+      await imprimirPDF(pdfPath1, "PRUEBA"); 
     }
 
     if (pedidosEspeciales.length > 0) {
