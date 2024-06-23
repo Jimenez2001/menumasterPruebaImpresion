@@ -18,6 +18,10 @@ export default async function imprimir({ orden }) {
       (item) => !categoriasEspeciales.includes(item.categoriaId)
     );
 
+    const nombreMesa = await prisma.mesas.findUnique({
+      where: { id: mesa_id},
+    });
+
     // Función para crear y escribir un PDF
     const crearPDF = (filePath, pedidos, title) => {
       return new Promise((resolve, reject) => {
@@ -29,7 +33,7 @@ export default async function imprimir({ orden }) {
         doc.pipe(writeStream);
 
         // Establecer el tamaño de fuente deseado
-        doc.fontSize(11); 
+        doc.fontSize(11);  
 
         // Agregar el título centrado y en negrita
         doc.font("Helvetica-Bold");
@@ -39,7 +43,7 @@ export default async function imprimir({ orden }) {
         doc.font("Helvetica");
         doc.text(`Orden: ${id}`, { align: "left" });
         doc.text(`Mesero: ${nombre}`, { align: "left" });
-        doc.text(`Mesa: ${mesa_id}`, { align: "left" });
+        doc.text(`${nombreMesa}`, { align: "left" });
         doc.text(`Fecha: ${fecha}`, { align: "left" });
         doc.moveDown();
 

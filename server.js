@@ -1,11 +1,14 @@
 const { createServer } = require('http');
 const { parse } = require('url');
 const next = require('next');
+const dotenv = require('dotenv');
 const cors = require('cors'); // Importar cors
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
+
+dotenv.config();
 
 app.prepare().then(() => {
   createServer((req, res) => {
