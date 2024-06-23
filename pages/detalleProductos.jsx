@@ -257,7 +257,7 @@ export default function detalleProductos() {
     }
 
     // Verifica que el precio sea mayor a 0
-    if (precio <= 0) {
+    if (precio >= 0) {
       Swal.fire({
         icon: "error",
         title: "Precio Inválido",
