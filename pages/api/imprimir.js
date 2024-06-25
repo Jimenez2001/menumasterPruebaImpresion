@@ -2,8 +2,10 @@ import { print } from "pdf-to-printer";
 import fs from "fs";
 import path from "path";
 import PDFDocument from "pdfkit";
+import { PrismaClient } from "@prisma/client";
 
 export default async function imprimir({ orden }) {
+  const prisma = new PrismaClient();
   try {
     console.log("---------------Datos de la orden-------------------------");
     console.log(orden);
@@ -33,7 +35,7 @@ export default async function imprimir({ orden }) {
         doc.pipe(writeStream);
 
         // Establecer el tamaño de fuente deseado
-        doc.fontSize(11);  
+        doc.fontSize(12);  
 
         // Agregar el título centrado y en negrita
         doc.font("Helvetica-Bold");
@@ -114,7 +116,7 @@ export default async function imprimir({ orden }) {
     if (otrosPedidos.length > 0) {
       const pdfPath1 = path.join(process.cwd(), "temp1.pdf");
       await crearPDF(pdfPath1, otrosPedidos, "Parrillada Don Milo - Cocina");
-      await imprimirPDF(pdfPath1, "PRUEBA"); 
+      await imprimirPDF(pdfPath1, "CAJAA"); 
     }
 
     if (pedidosEspeciales.length > 0) {
@@ -124,7 +126,7 @@ export default async function imprimir({ orden }) {
         pedidosEspeciales,
         "Parrillada Don Milo - Bar"
       );
-      await imprimirPDF(pdfPath2, "RONGTA 80mm Series Printer"); 
+      await imprimirPDF(pdfPath2, "COCINA1"); 
     }
 
   } catch (error) {
