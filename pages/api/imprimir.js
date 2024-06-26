@@ -20,22 +20,28 @@ export default async function imprimir({ orden }) {
       (item) => !categoriasEspeciales.includes(item.categoriaId)
     );
 
-    const nombreMesa = await prisma.mesas.findUnique({
-      where: { id: mesa_id},
+    // Obtener el nombre de la mesa
+    const mesa = await prisma.mesas.findUnique({
+      where: { id: mesa_id },
+      select: { nombre: true },
     });
+
+    if (!mesa) {
+      throw new Error(`Mesa con id ${mesa_id} no encontrada`);
+    }
 
     // Función para crear y escribir un PDF
     const crearPDF = (filePath, pedidos, title) => {
       return new Promise((resolve, reject) => {
         const doc = new PDFDocument({
-          size: [3 * 72, 1000], 
+          size: [3 * 72, 1000],
           margins: { top: 10, bottom: 10, left: 10, right: 10 },
         });
         const writeStream = fs.createWriteStream(filePath);
         doc.pipe(writeStream);
 
         // Establecer el tamaño de fuente deseado
-        doc.fontSize(12);  
+        doc.fontSize(12);
 
         // Agregar el título centrado y en negrita
         doc.font("Helvetica-Bold");
@@ -45,10 +51,9 @@ export default async function imprimir({ orden }) {
         doc.font("Helvetica");
         doc.text(`Orden: ${id}`, { align: "left" });
         doc.text(`Mesero: ${nombre}`, { align: "left" });
-        doc.text(`${nombreMesa}`, { align: "left" });
+        doc.text(`${mesa.nombre}`, { align: "left" }); // Mostrar el nombre de la mesa
         doc.text(`Fecha: ${fecha}`, { align: "left" });
         doc.moveDown();
-
 
         doc.text("_______________________________________", {
           align: "left",
@@ -116,20 +121,17 @@ export default async function imprimir({ orden }) {
     if (otrosPedidos.length > 0) {
       const pdfPath1 = path.join(process.cwd(), "temp1.pdf");
       await crearPDF(pdfPath1, otrosPedidos, "Parrillada Don Milo - Cocina");
-      await imprimirPDF(pdfPath1, "CAJAA"); 
+      await imprimirPDF(pdfPath1, "CAJAA");/* RONGTA 80mm Series Printer */
     }
 
     if (pedidosEspeciales.length > 0) {
       const pdfPath2 = path.join(process.cwd(), "temp2.pdf");
-      await crearPDF(
-        pdfPath2,
-        pedidosEspeciales,
-        "Parrillada Don Milo - Bar"
-      );
-      await imprimirPDF(pdfPath2, "COCINA1"); 
+      await crearPDF(pdfPath2, pedidosEspeciales, "Parrillada Don Milo - Bar");
+      await imprimirPDF(pdfPath2, "COCINA1");
     }
-
   } catch (error) {
     console.error("Error interno del servidor", error);
+  } finally {
+    await prisma.$disconnect();
   }
 }
