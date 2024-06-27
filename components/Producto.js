@@ -10,7 +10,7 @@ const Producto = ({ producto }) => {
   return (
     <div className="border p-3">
       <Image //Imprimimos las imágenes de los productos
-        src={`/assets/img/${imagen}.jpeg`}
+        src={`/assets/img/${imagen}`}
         alt={`Imagen Platillo ${nombre}`}
         width={400}
         height={500}

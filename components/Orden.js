@@ -256,7 +256,7 @@ export default function Orden({ orden }) {
                 <Image
                   width={400} //Mostramos y damos tamaño a la imagen de cada orden
                   height={500}
-                  src={`/assets/img/${platillo.imagen}.jpeg`}
+                  src={`/assets/img/${platillo.imagen}`}
                   alt={`Imagen Platillo ${platillo.nombre}`}
                 />
               </div>

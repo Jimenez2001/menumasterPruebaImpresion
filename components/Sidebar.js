@@ -284,7 +284,7 @@ const Sidebar = () => {
                 <div key={pedido.id} className="flex items-center mb-3">
                   <img
                     className="w-16 object-cover rounded-lg"
-                    src={`/assets/img/${pedido.imagen}.jpeg`}
+                    src={`/assets/img/${pedido.imagen}`}
                     alt={`Imagen Platillo ${pedido.nombre}`}
                   />
                   <div className="ml-4">

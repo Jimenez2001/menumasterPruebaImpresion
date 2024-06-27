@@ -274,7 +274,11 @@ export default function Caja() {
           let precioDetalle = detalle.precio * producto.cantidad;
           subtotalProducto += precioDetalle;
           pdf.setFontSize(8);
-          pdf.text(`+ ${detalle.label.substring(0, 20)}`, 0.5, (yPosition += 0.2));
+          pdf.text(
+            `+ ${detalle.label.substring(0, 20)}`,
+            0.5,
+            (yPosition += 0.2)
+          );
           pdf.text(`Q${detalle.precio.toFixed(2)}`, 2.1, yPosition, {
             align: "right",
           });
@@ -430,7 +434,7 @@ export default function Caja() {
                     <div key={producto?.id} className="flex items-center mb-3">
                       <img
                         className="w-40 h-40 object-cover rounded-lg"
-                        src={`/assets/img/${producto?.imagen}.jpeg`}
+                        src={`/assets/img/${producto?.imagen}`}
                         alt={`Imagen Platillo ${producto?.nombre}`}
                       />
                       <div className="ml-4">
@@ -536,6 +540,7 @@ export default function Caja() {
                     >
                       Completar Mesa
                     </button>
+
                     <button
                       className="px-5 py-2.5 mr-2 mb-2 mt-5 w-full"
                       onClick={imprimirTotal}
