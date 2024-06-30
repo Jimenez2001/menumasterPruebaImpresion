@@ -15,7 +15,7 @@ const nextConfig = {
                     name: '[name].[ext]',
                     esModule: false,
                 },
-            },
+            }, 
         });
 
         // Retorna la configuración modificada

@@ -45,7 +45,8 @@ const opcionesMenu = [
   },
   { paso: 5, nombre: "Caja", url: "/caja", icon: Calculator },
   { paso: 6, nombre: "Detalle Productos", url: "/detalleProductos", icon: UtensilsCrossed },
-  { paso: 7, nombre: "Ajustes", url: "/ajustes", icon: Settings },
+  { paso: 7, nombre: "Productos", url: "/productos", icon: Settings },
+  { paso: 8, nombre: "Ajustes", url: "/ajustes", icon: Settings },
 ];
 
 export default function AdminLayout({ children, pagina }) {
